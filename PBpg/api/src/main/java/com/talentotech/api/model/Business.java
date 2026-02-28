@@ -12,9 +12,6 @@ public class Business {
     private String businessName;
 
     @Column(nullable = false)
-    private String type;
-
-    @Column(nullable = false)
     private String email;
 
     @Column(nullable = false)
@@ -22,6 +19,9 @@ public class Business {
 
     @Column
     private double annualIncome;
+
+    @Enumerated(EnumType.STRING)
+    private BusinessType type;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
@@ -66,12 +66,12 @@ public class Business {
     }
 
 
-    public String getType() {
-        return type;
+    public BusinessType getType() {
+    return type;
     }
 
 
-    public void setType(String type) {
+    public void setType(BusinessType type) {
         this.type = type;
     }
 
