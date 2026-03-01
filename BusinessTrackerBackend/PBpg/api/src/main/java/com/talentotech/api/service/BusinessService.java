@@ -1,23 +1,29 @@
 package com.talentotech.api.service;
 import com.talentotech.api.repository.BusinessRepository;
+import com.talentotech.api.repository.RegionRepository;
 import com.talentotech.api.repository.UserRepository;
 import com.talentotech.api.exception.ResourceNotFoundException;
 import com.talentotech.api.model.Business;
 import com.talentotech.api.model.User;
+import com.talentotech.api.model.Region;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
 
+
 @Service
 public class BusinessService {
-
+    
     private final BusinessRepository businessRepository;
     private final UserRepository userRepository;
+    private final RegionRepository regionRepository;
 
     public BusinessService(BusinessRepository businessRepository,
-                           UserRepository userRepository) {
-        this.businessRepository = businessRepository;
-        this.userRepository = userRepository;
+                       UserRepository userRepository,
+                       RegionRepository regionRepository) {
+    this.businessRepository = businessRepository;
+    this.userRepository = userRepository;
+    this.regionRepository = regionRepository;
     }
 
     public Business createBusiness(Long userId, Business business) {
@@ -25,7 +31,13 @@ public class BusinessService {
         User user = userRepository.findById(userId)
             .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
 
+        Long regionId = business.getRegion().getId();
+
+        Region region = regionRepository.findById(regionId)
+        .orElseThrow(() -> new ResourceNotFoundException("Región no encontrada"));
+
         business.setUser(user);
+        business.setRegion(region);
 
         return businessRepository.save(business);
     }
