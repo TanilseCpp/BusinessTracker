@@ -1,4 +1,6 @@
 package com.talentotech.api.model;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -14,9 +16,11 @@ public class Business {
     @Column(nullable = false)
     private String email;
 
+    @JsonProperty("expenses")
     @Column(nullable = false)
     private double initialInvestment;
 
+    @JsonProperty("income")
     @Column
     private double annualIncome;
 
@@ -26,6 +30,10 @@ public class Business {
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "region_id", nullable = false)
+    private Region region;
 
     public Business() {}
 
@@ -85,5 +93,12 @@ public class Business {
         this.email = email;
     }
 
+    public Region getRegion() {
+    return region;
+}
+
+    public void setRegion(Region region) {
+        this.region = region;
+    }
     
 }
