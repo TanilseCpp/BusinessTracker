@@ -8,6 +8,7 @@ import com.talentotech.api.model.User;
 import com.talentotech.api.model.Region;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import com.talentotech.api.dto.ProductionReport;
 
 
 
@@ -51,12 +52,24 @@ public class BusinessService {
             .orElseThrow(() -> new ResourceNotFoundException("Negocio no encontrado"));
     }
 
+    public List<ProductionReport> getProductionReport() {
+    return businessRepository.getProductionReport();
+    }
+
     public Business update(Long id, Business businessDetails) {
 
         Business business = findById(id);
 
         if (businessDetails.getBusinessName() != null) {
             business.setBusinessName(businessDetails.getBusinessName());
+        }
+
+        if (businessDetails.getEmail() != null) {
+            business.setEmail(businessDetails.getEmail());
+        }
+
+        if (businessDetails.getAnnualIncome() != null) {
+            business.setAnnualIncome(businessDetails.getAnnualIncome());
         }
 
         return businessRepository.save(business);
