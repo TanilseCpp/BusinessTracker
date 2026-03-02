@@ -1,0 +1,50 @@
+.stat-number {
+  color: var(--color-secondary);
+  font-size: 1.8rem;
+}
+
+.table-dark-custom th {
+  background-color: var(--color-primary);
+  color: var(--color-text-light);
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.progress-bar-custom {
+  background: linear-gradient(90deg, var(--color-accent), var(--color-secondary));
+  border-radius: 5px;
+}
+
+.top-country-card {
+  background-color: var(--color-light);
+  transition: all var(--transition-speed);
+}
+
+.top-country-card:hover {
+  background-color: var(--color-accent-light);
+  color: var(--color-text-light);
+}
+
+.top-country-card:hover .text-muted {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
+.rank-number {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--color-accent);
+  min-width: 36px;
+  text-align: center;
+}
+
+.top-country-card:hover .rank-number {
+  color: var(--color-text-light);
+}
+
+@media (max-width: 768px) {
+  .stat-number {
+    font-size: 1.4rem;
+  }
+}

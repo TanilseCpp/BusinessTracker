@@ -1,0 +1,100 @@
+<div class="page-wrapper">
+  <div class="container">
+    <h2 class="section-title">Emprendimientos / Global</h2>
+
+    <!-- Search & Filter Bar -->
+    <div class="card-custom p-4 mb-4 filter-bar">
+      <div class="row g-3 align-items-end">
+        <div class="col-md-5">
+          <label for="searchInput" class="form-label fw-semibold">Buscar Emprendimiento</label>
+          <input
+            id="searchInput"
+            type="text"
+            class="form-control"
+            placeholder="Nombre, tipo o email..."
+            [value]="searchTerm()"
+            (input)="onSearchChange($any($event.target).value)" />
+        </div>
+        <div class="col-md-4">
+          <label for="regionSelect" class="form-label fw-semibold">Filtrar por Región</label>
+          <select
+            id="regionSelect"
+            class="form-select"
+            [value]="selectedRegionId() ?? ''"
+            (change)="onRegionChange($any($event.target).value)">
+            <option value="">Todas las regiones</option>
+            @for (region of regions(); track region.id) {
+              <option [value]="region.id">
+                {{ region.name }} ({{ region.country?.name }})
+              </option>
+            }
+          </select>
+        </div>
+        <div class="col-md-3">
+          <button class="btn btn-outline-secondary w-100" (click)="clearFilters()">
+            Limpiar Filtros
+          </button>
+        </div>
+      </div>
+      <div class="mt-2">
+        <small class="text-muted">
+          Mostrando {{ filteredBusinesses().length }} de {{ businesses().length }} emprendimientos
+        </small>
+      </div>
+    </div>
+
+    <!-- Business List -->
+    @if (isLoading()) {
+      <div class="text-center py-5">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Cargando...</span>
+        </div>
+      </div>
+    } @else if (filteredBusinesses().length === 0) {
+      <div class="text-center py-5">
+        <p class="text-muted fs-5">No se encontraron emprendimientos.</p>
+      </div>
+    } @else {
+      <div class="table-responsive">
+        <table class="table table-hover align-middle card-custom">
+          <thead class="table-dark-custom">
+            <tr>
+              <th>#</th>
+              <th>Nombre</th>
+              <th>Tipo</th>
+              <th>Región</th>
+              <th>País</th>
+              <th>Email</th>
+              <th class="text-end">Ingresos</th>
+              <th class="text-end">Gastos</th>
+              <th>Propietario</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (business of filteredBusinesses(); track business.id; let i = $index) {
+              <tr>
+                <td>{{ i + 1 }}</td>
+                <td class="fw-semibold">{{ business.businessName }}</td>
+                <td>
+                  <span class="badge badge-type" [class]="getTypeBadgeClass(business.type)">
+                    {{ business.type }}
+                  </span>
+                </td>
+                <td>{{ business.region?.name ?? '—' }}</td>
+                <td>{{ business.region?.country?.name ?? '—' }}</td>
+                <td>{{ business.email }}</td>
+                <td class="text-end text-success fw-semibold">
+                  {{ business.income | currency:'USD':'symbol':'1.0-0' }}
+                </td>
+                <td class="text-end text-danger fw-semibold">
+                  {{ business.expenses | currency:'USD':'symbol':'1.0-0' }}
+                </td>
+                <td>{{ business.user?.username ?? '—' }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </div>
+</div>

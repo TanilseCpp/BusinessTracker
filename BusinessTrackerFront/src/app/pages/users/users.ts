@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { Api } from '../../services/api';
-
+import { UserService } from '../../services/api';
+import { IUser } from '../../models/user.model';
 
 @Component({
   selector: 'app-users',
@@ -9,19 +9,11 @@ import { Api } from '../../services/api';
   styleUrl: './users.css',
 })
 export class Users implements OnInit {
-
-    private _apiService = inject(Api);
+  private readonly userService = inject(UserService);
 
   ngOnInit(): void {
-    this._apiService.getUsers().subscribe(users => {
+    this.userService.getAll().subscribe((users: IUser[]) => {
       console.log('users:', users);
     });
   }
-
-
-
-  getUsers() {
-    console.log('Getting users...');
-  }
-
 }
