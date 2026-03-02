@@ -1,67 +1,3 @@
-# BusinessTrackerFront
-
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.0.1.
-
-## Development server
-
-To start a local development server, run:
-
-```bash
-ng serve
-```
-
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
-
-
-------------------------------------------------------------------------------------------
-https://github.com/TanilseCpp/BusinessTracker/tree/main
-
 PAGINA PRINCIPAL LOGIN
 - usuario
 - password
@@ -78,7 +14,7 @@ PAGINA PRINCIPAL HOME
 - boton users: muestra los emprendimientos incritos en la lista principal
 - boton favoritos: muestra empresas seleccionadas por el usuarios de otras personas
 
-Opción 2 para el proyecto: Red Comunitaria
+Proyecto: Red Comunitaria
 
 Objetivo:
 
@@ -98,15 +34,9 @@ Nivel
 
 Descripción del requerimiento
 
-1
+1 El sistema debe permitir la gestión de usuarios utilizando Java. Implementar funcionalidades de registro, inicio de sesión y gestión de perfiles.
 
-A partir del conjunto de datos, se deberá modelar un sistema orientado a objetos que permita la gestión de la información descrita en dicho conjunto de datos. Deberá implementar métodos para calcular la producción y consumo de energía.
-
-El sistema debe permitir la gestión de usuarios utilizando Java. Implementar funcionalidades de registro, inicio de sesión y gestión de perfiles.
-
-2
-
-Diseñar una base de datos relacional que almacene los datos de las personas y sus emprendimientos o innovaciones.
+2 Diseñar una base de datos relacional que almacene los datos de las personas y sus emprendimientos o innovaciones.
 
 La aplicación deberá permitir la conexión a la base de datos para realizar operaciones de almacenamiento y recuperación de datos.
 
@@ -143,3 +73,5 @@ Editor de Código: Visual Studio Code.
 Frameworks CSS: Bootstrap.
 Node.js: Para ejecutar JavaScript en el entorno de servidor y gestionar dependencias.
 Angular CLI: Para crear, gestionar y desplegar aplicaciones Angular. ● Git: Para control de versiones.
+
+psql -U postgres -d business_tracker -f seed-data.sql

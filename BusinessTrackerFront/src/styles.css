@@ -1,1 +1,188 @@
-/* You can add global styles to this file, and also import other style files */
+/* ============================================
+   Color Palette - Customizable CSS Variables
+   ============================================ */
+:root {
+  --color-primary: #2C3E50;
+  --color-primary-light: #34495E;
+  --color-primary-dark: #1A252F;
+  --color-secondary: #3498DB;
+  --color-secondary-light: #5DADE2;
+  --color-secondary-dark: #2980B9;
+  --color-accent: #1ABC9C;
+  --color-accent-light: #48C9B0;
+  --color-accent-dark: #16A085;
+  --color-success: #27AE60;
+  --color-warning: #F39C12;
+  --color-danger: #E74C3C;
+  --color-light: #ECF0F1;
+  --color-dark: #1A252F;
+  --color-bg: #F8F9FA;
+  --color-bg-card: #FFFFFF;
+  --color-text: #2C3E50;
+  --color-text-muted: #7F8C8D;
+  --color-text-light: #FFFFFF;
+  --color-border: #DEE2E6;
+  --color-shadow: rgba(0, 0, 0, 0.1);
+  --border-radius: 0.5rem;
+  --transition-speed: 0.3s;
+}
+
+/* ============================================
+   Global Reset & Base
+   ============================================ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  min-height: 100vh;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+app-root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+a {
+  color: var(--color-secondary);
+  text-decoration: none;
+  transition: color var(--transition-speed);
+}
+
+a:hover {
+  color: var(--color-secondary-dark);
+}
+
+/* ============================================
+   Scrollbar Styling
+   ============================================ */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-light);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-primary-light);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary);
+}
+
+/* ============================================
+   Utility Classes
+   ============================================ */
+.section-title {
+  color: var(--color-primary);
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  position: relative;
+  padding-bottom: 0.5rem;
+}
+
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 60px;
+  height: 3px;
+  background: var(--color-accent);
+  border-radius: 2px;
+}
+
+.card-custom {
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+  box-shadow: 0 2px 8px var(--color-shadow);
+  transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+}
+
+.card-custom:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px var(--color-shadow);
+}
+
+.btn-primary-custom {
+  background-color: var(--color-secondary);
+  border-color: var(--color-secondary);
+  color: var(--color-text-light);
+  border-radius: var(--border-radius);
+  transition: all var(--transition-speed);
+}
+
+.btn-primary-custom:hover {
+  background-color: var(--color-secondary-dark);
+  border-color: var(--color-secondary-dark);
+  color: var(--color-text-light);
+}
+
+.btn-accent-custom {
+  background-color: var(--color-accent);
+  border-color: var(--color-accent);
+  color: var(--color-text-light);
+  border-radius: var(--border-radius);
+  transition: all var(--transition-speed);
+}
+
+.btn-accent-custom:hover {
+  background-color: var(--color-accent-dark);
+  border-color: var(--color-accent-dark);
+  color: var(--color-text-light);
+}
+
+.btn-danger-custom {
+  background-color: var(--color-danger);
+  border-color: var(--color-danger);
+  color: var(--color-text-light);
+  border-radius: var(--border-radius);
+  transition: all var(--transition-speed);
+}
+
+.btn-danger-custom:hover {
+  background-color: #C0392B;
+  border-color: #C0392B;
+  color: var(--color-text-light);
+}
+
+.badge-type {
+  font-size: 0.75rem;
+  padding: 0.35em 0.65em;
+  border-radius: 1rem;
+}
+
+.page-wrapper {
+  flex: 1;
+  padding: 2rem 0;
+}
+
+/* ============================================
+   Responsive Helpers
+   ============================================ */
+@media (max-width: 768px) {
+  .page-wrapper {
+    padding: 1rem 0;
+  }
+
+  .section-title {
+    font-size: 1.25rem;
+  }
+}

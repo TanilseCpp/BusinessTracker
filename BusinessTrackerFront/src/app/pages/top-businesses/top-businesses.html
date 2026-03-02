@@ -1,0 +1,87 @@
+<div class="page-wrapper">
+  <div class="container">
+    <h2 class="section-title">Empresas Más Buscadas</h2>
+    <p class="text-muted mb-4">Las 10 empresas con mayor rendimiento registrado en la plataforma.</p>
+
+    @if (isLoading()) {
+      <div class="text-center py-5">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Cargando...</span>
+        </div>
+      </div>
+    } @else if (topBusinesses().length === 0) {
+      <div class="text-center py-5">
+        <p class="text-muted fs-5">No hay empresas registradas aún.</p>
+      </div>
+    } @else {
+      <div class="row g-4">
+        @for (business of topBusinesses(); track business.id; let i = $index) {
+          <div class="col-md-6 col-lg-4">
+            <div class="card-custom top-card h-100 p-0 overflow-hidden">
+              <!-- Rank Header -->
+              <div class="top-card-header d-flex align-items-center px-4 py-3"
+                   [class.top-3]="i < 3">
+                <span class="rank-badge me-3">{{ i + 1 }}</span>
+                <div>
+                  <h5 class="fw-bold mb-0 text-white">{{ business.businessName }}</h5>
+                  <small class="text-white-50">{{ business.type }}</small>
+                </div>
+              </div>
+
+              <!-- Card Body -->
+              <div class="p-4">
+                <div class="mb-3">
+                  <small class="text-muted d-block">Región</small>
+                  <span class="fw-semibold">
+                    {{ business.region?.name ?? '—' }}, {{ business.region?.country?.name ?? '—' }}
+                  </span>
+                </div>
+
+                <div class="row g-2 mb-3">
+                  <div class="col-6">
+                    <small class="text-muted d-block">Ingresos</small>
+                    <span class="fw-bold text-success">
+                      {{ business.income | currency:'USD':'symbol':'1.0-0' }}
+                    </span>
+                  </div>
+                  <div class="col-6">
+                    <small class="text-muted d-block">Gastos</small>
+                    <span class="fw-bold text-danger">
+                      {{ business.expenses | currency:'USD':'symbol':'1.0-0' }}
+                    </span>
+                  </div>
+                </div>
+
+                <div class="row g-2">
+                  <div class="col-6">
+                    <small class="text-muted d-block">Ganancia</small>
+                    <span class="fw-bold" [class.text-success]="getProfit(business) >= 0"
+                          [class.text-danger]="getProfit(business) < 0">
+                      {{ getProfit(business) | currency:'USD':'symbol':'1.0-0' }}
+                    </span>
+                  </div>
+                  <div class="col-6">
+                    <small class="text-muted d-block">ROI</small>
+                    <span class="fw-bold" [class.text-success]="getRoi(business) >= 0"
+                          [class.text-danger]="getRoi(business) < 0">
+                      {{ getRoi(business) | number:'1.1-1' }}%
+                    </span>
+                  </div>
+                </div>
+
+                <hr />
+
+                <div class="d-flex justify-content-between align-items-center">
+                  <small class="text-muted">
+                    Propietario: <strong>{{ business.user?.username ?? '—' }}</strong>
+                  </small>
+                  <small class="text-muted">{{ business.email }}</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    }
+  </div>
+</div>
