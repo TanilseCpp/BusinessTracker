@@ -4,6 +4,7 @@ import com.talentotech.api.service.BusinessService;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
+import com.talentotech.api.dto.ProductionReport;
 
 import java.util.List;
 
@@ -30,6 +31,11 @@ public class BusinessController {
     @GetMapping
     public List<Business> findAll() {
         return businessService.findAll();
+    }
+
+    @GetMapping("/report")
+    public List<ProductionReport> getProductionReport() {
+        return businessService.getProductionReport();
     }
 
     @GetMapping("/{id}")

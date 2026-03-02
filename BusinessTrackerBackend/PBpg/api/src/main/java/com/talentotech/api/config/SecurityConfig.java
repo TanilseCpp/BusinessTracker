@@ -24,6 +24,8 @@ public class SecurityConfig {
                 .requestMatchers("/api/country").permitAll()
                 .requestMatchers("/api/region").permitAll()
                 .requestMatchers("/api/businesses/user/*").permitAll()
+                .requestMatchers("/api/businesses/*").permitAll()
+                .requestMatchers("/api/businesses").permitAll()
                 .requestMatchers("/api/users/login").permitAll()
                 .anyRequest().authenticated())
             .formLogin(form -> form.disable())

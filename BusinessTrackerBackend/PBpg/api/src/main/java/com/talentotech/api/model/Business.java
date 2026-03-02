@@ -1,5 +1,4 @@
 package com.talentotech.api.model;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.*;
 
@@ -16,13 +15,11 @@ public class Business {
     @Column(nullable = false)
     private String email;
 
-    @JsonProperty("expenses")
     @Column(nullable = false)
     private double initialInvestment;
 
-    @JsonProperty("income")
     @Column
-    private double annualIncome;
+    private Double annualIncome;
 
     @Enumerated(EnumType.STRING)
     private BusinessType type;
@@ -45,13 +42,23 @@ public class Business {
         return user;
     }
 
-    public double calculateProfit() {
+    @Transient
+    public double getProfit() { // Ganancia o beneficio
         return annualIncome - initialInvestment;
     }
 
-    public double calculateROI() {
+    @Transient
+    public double getROI() { //ROI : Retorno sobre la inversion
         if (initialInvestment == 0) return 0;
-        return (calculateProfit() / initialInvestment) * 100;
+        return (getProfit() / initialInvestment) * 100;
+    }
+
+    public void setAnnualIncome(double annualIncome) {
+    this.annualIncome = annualIncome;
+    }
+
+    public Double getAnnualIncome() {
+        return annualIncome;
     }
 
     public Long getId() {
