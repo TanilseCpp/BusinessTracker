@@ -1,0 +1,55 @@
+.avatar-circle {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--color-accent), var(--color-secondary));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatar-initials {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--color-text-light);
+}
+
+.avatar-circle-lg {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: var(--color-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatar-initials-lg {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--color-text-muted);
+}
+
+.user-profile-card {
+  border-top: 4px solid var(--color-accent);
+}
+
+.register-form-card {
+  border-left: 4px solid var(--color-secondary);
+}
+
+.table-dark-custom th {
+  background-color: var(--color-primary);
+  color: var(--color-text-light);
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+@media (max-width: 991px) {
+  .user-profile-card {
+    margin-bottom: 1rem;
+  }
+}

@@ -1,0 +1,99 @@
+<div class="page-wrapper">
+  <!-- Hero Section -->
+  <section class="hero-section text-center">
+    <div class="container">
+      <h1 class="display-4 fw-bold text-white mb-3">
+        Red Comunitaria de Emprendimiento
+      </h1>
+      <p class="lead text-white-50 mb-4">
+        Plataforma integral para visualizar y gestionar datos sobre emprendimiento
+        e innovación a nivel global y local.
+      </p>
+      <div class="d-flex justify-content-center gap-3 flex-wrap">
+        <a routerLink="global-businesses" class="btn btn-accent-custom btn-lg px-4">
+          Explorar Emprendimientos
+        </a>
+        <a routerLink="user-section" class="btn btn-outline-light btn-lg px-4">
+          Mi Perfil
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats Cards -->
+  <section class="container mt-5">
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="card-custom p-4 text-center stat-card">
+          <div class="stat-icon mb-3">📊</div>
+          <h3 class="fw-bold text-primary-custom">{{ totalBusinesses() }}</h3>
+          <p class="text-muted mb-0">Emprendimientos Registrados</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card-custom p-4 text-center stat-card">
+          <div class="stat-icon mb-3">🌍</div>
+          <h3 class="fw-bold text-primary-custom">Global</h3>
+          <p class="text-muted mb-0">Cobertura Internacional</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card-custom p-4 text-center stat-card">
+          <div class="stat-icon mb-3">🚀</div>
+          <h3 class="fw-bold text-primary-custom">Innovación</h3>
+          <p class="text-muted mb-0">Impulsando el Progreso</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Recent Businesses -->
+  <section class="container mt-5 mb-5">
+    <h2 class="section-title">Emprendimientos Recientes</h2>
+
+    @if (isLoading()) {
+      <div class="text-center py-5">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Cargando...</span>
+        </div>
+      </div>
+    } @else if (recentBusinesses().length === 0) {
+      <div class="text-center py-5">
+        <p class="text-muted fs-5">No hay emprendimientos registrados aún.</p>
+        <a routerLink="user-section" class="btn btn-primary-custom">Inscribir Emprendimiento</a>
+      </div>
+    } @else {
+      <div class="row g-4">
+        @for (business of recentBusinesses(); track business.id) {
+          <div class="col-md-6 col-lg-4">
+            <div class="card-custom p-4 h-100">
+              <div class="d-flex justify-content-between align-items-start mb-2">
+                <h5 class="fw-bold mb-0">{{ business.businessName }}</h5>
+                <span class="badge badge-type bg-info">{{ business.type }}</span>
+              </div>
+              <p class="text-muted small mb-2">
+                {{ business.region?.name }}, {{ business.region?.country?.name }}
+              </p>
+              <p class="small mb-1">
+                <strong>Contacto:</strong> {{ business.email }}
+              </p>
+              <div class="d-flex justify-content-between mt-auto pt-2 border-top">
+                <span class="small text-success fw-bold">
+                  Ingresos: {{ business.income | currency:'USD':'symbol':'1.0-0' }}
+                </span>
+                <span class="small text-danger fw-bold">
+                  Gastos: {{ business.expenses | currency:'USD':'symbol':'1.0-0' }}
+                </span>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+      <div class="text-center mt-4">
+        <a routerLink="global-businesses" class="btn btn-primary-custom">
+          Ver Todos los Emprendimientos
+        </a>
+      </div>
+    }
+  </section>
+</div>
