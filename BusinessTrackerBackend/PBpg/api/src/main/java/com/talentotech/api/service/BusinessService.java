@@ -4,10 +4,17 @@ import com.talentotech.api.repository.RegionRepository;
 import com.talentotech.api.repository.UserRepository;
 import com.talentotech.api.exception.ResourceNotFoundException;
 import com.talentotech.api.model.Business;
+import com.talentotech.api.model.BusinessType;
 import com.talentotech.api.model.User;
 import com.talentotech.api.model.Region;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import com.talentotech.api.dto.CountryRanking;
 import org.springframework.stereotype.Service;
+import java.util.Map;
+import java.util.HashMap;
 import java.util.List;
+import com.talentotech.api.dto.ProductionReport;
 
 
 
@@ -51,12 +58,24 @@ public class BusinessService {
             .orElseThrow(() -> new ResourceNotFoundException("Negocio no encontrado"));
     }
 
+    public List<ProductionReport> getProductionReport() {
+    return businessRepository.getProductionReport();
+    }
+
     public Business update(Long id, Business businessDetails) {
 
         Business business = findById(id);
 
         if (businessDetails.getBusinessName() != null) {
             business.setBusinessName(businessDetails.getBusinessName());
+        }
+
+        if (businessDetails.getEmail() != null) {
+            business.setEmail(businessDetails.getEmail());
+        }
+
+        if (businessDetails.getAnnualIncome() != null) {
+            business.setAnnualIncome(businessDetails.getAnnualIncome());
         }
 
         return businessRepository.save(business);
@@ -66,4 +85,39 @@ public class BusinessService {
         Business business = findById(id);
         businessRepository.delete(business);
     }
+
+    public Map<String, Double> getRegionPercentages() {
+
+        List<Object[]> results = businessRepository.countBusinessesByRegion();
+
+        long total = results.stream()
+            .mapToLong(r -> (Long) r[1])
+            .sum();
+
+        Map<String, Double> percentages = new HashMap<>();
+
+        for (Object[] row : results) {
+            String region = (String) row[0];
+            Long count = (Long) row[1];
+
+            double percentage = (count * 100.0) / total;
+            percentages.put(region, percentage);
+        }
+
+        return percentages;
+    }
+
+    public List<CountryRanking> getTop10Countries() {
+        Pageable topTen = PageRequest.of(0, 10);
+        return businessRepository.getCountryRanking(topTen);
+    }
+
+    public List<Business> search(
+        BusinessType type,
+        Long regionId,
+        Long countryId,
+        Long userId) {
+
+    return businessRepository.search(type, regionId, countryId, userId);
+}
 }
