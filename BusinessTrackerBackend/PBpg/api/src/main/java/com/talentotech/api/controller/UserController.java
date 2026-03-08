@@ -7,7 +7,7 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController //Esto determina que la clase responde peticiones http y devuelve JSON
 @RequestMapping("/api/users") //Define la ruta base del controlador
 

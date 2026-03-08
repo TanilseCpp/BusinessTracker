@@ -8,9 +8,9 @@ import org.springframework.http.HttpStatus;
 import com.talentotech.api.dto.ProductionReport;
 import java.util.Map;
 import com.talentotech.api.dto.CountryRanking;
-
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/businesses")
 public class BusinessController {
@@ -20,7 +20,7 @@ public class BusinessController {
     public BusinessController(BusinessService businessService) {
         this.businessService = businessService;
     }
-
+    
     @PostMapping("/user/{userId}")
     public ResponseEntity<Business> createBusiness(
             @PathVariable Long userId,
