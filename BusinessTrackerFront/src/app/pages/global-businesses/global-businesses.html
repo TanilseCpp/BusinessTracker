@@ -5,24 +5,50 @@
     <!-- Search & Filter Bar -->
     <div class="card-custom p-4 mb-4 filter-bar">
       <div class="row g-3 align-items-end">
-        <div class="col-md-5">
-          <label for="searchInput" class="form-label fw-semibold">Buscar Emprendimiento</label>
+        <div class="col-md-3">
+          <label for="searchInput" class="form-label fw-semibold">Buscar</label>
           <input
             id="searchInput"
             type="text"
             class="form-control"
-            placeholder="Nombre, tipo o email..."
+            placeholder="Nombre o email..."
             [value]="searchTerm()"
             (input)="onSearchChange($any($event.target).value)" />
         </div>
-        <div class="col-md-4">
-          <label for="regionSelect" class="form-label fw-semibold">Filtrar por Región</label>
+        <div class="col-md-2">
+          <label for="typeSelect" class="form-label fw-semibold">Tipo</label>
+          <select
+            id="typeSelect"
+            class="form-select"
+            [value]="selectedType() ?? ''"
+            (change)="onTypeChange($any($event.target).value)">
+            <option value="">Todos</option>
+            @for (type of businessTypes; track type) {
+              <option [value]="type">{{ type }}</option>
+            }
+          </select>
+        </div>
+        <div class="col-md-2">
+          <label for="countrySelect" class="form-label fw-semibold">País</label>
+          <select
+            id="countrySelect"
+            class="form-select"
+            [value]="selectedCountryId() ?? ''"
+            (change)="onCountryChange($any($event.target).value)">
+            <option value="">Todos</option>
+            @for (country of countries(); track country.id) {
+              <option [value]="country.id">{{ country.name }}</option>
+            }
+          </select>
+        </div>
+        <div class="col-md-3">
+          <label for="regionSelect" class="form-label fw-semibold">Región</label>
           <select
             id="regionSelect"
             class="form-select"
             [value]="selectedRegionId() ?? ''"
             (change)="onRegionChange($any($event.target).value)">
-            <option value="">Todas las regiones</option>
+            <option value="">Todas</option>
             @for (region of regions(); track region.id) {
               <option [value]="region.id">
                 {{ region.name }} ({{ region.country?.name }})
@@ -30,15 +56,15 @@
             }
           </select>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-2">
           <button class="btn btn-outline-secondary w-100" (click)="clearFilters()">
-            Limpiar Filtros
+            Limpiar
           </button>
         </div>
       </div>
       <div class="mt-2">
         <small class="text-muted">
-          Mostrando {{ filteredBusinesses().length }} de {{ businesses().length }} emprendimientos
+          Mostrando {{ filteredBusinesses().length }} emprendimientos
         </small>
       </div>
     </div>
@@ -66,7 +92,9 @@
               <th>País</th>
               <th>Email</th>
               <th class="text-end">Ingresos</th>
-              <th class="text-end">Gastos</th>
+              <th class="text-end">Inv. Inicial</th>
+              <th class="text-end">Ganancia</th>
+              <th class="text-end">ROI</th>
               <th>Propietario</th>
             </tr>
           </thead>
@@ -84,10 +112,20 @@
                 <td>{{ business.region?.country?.name ?? '—' }}</td>
                 <td>{{ business.email }}</td>
                 <td class="text-end text-success fw-semibold">
-                  {{ business.income | currency:'USD':'symbol':'1.0-0' }}
+                  {{ business.annualIncome | currency:'USD':'symbol':'1.0-0' }}
                 </td>
                 <td class="text-end text-danger fw-semibold">
-                  {{ business.expenses | currency:'USD':'symbol':'1.0-0' }}
+                  {{ (business.annualIncome ?? 0) - business.profit | currency:'USD':'symbol':'1.0-0' }}
+                </td>
+                <td class="text-end fw-semibold"
+                    [class.text-success]="business.profit >= 0"
+                    [class.text-danger]="business.profit < 0">
+                  {{ business.profit | currency:'USD':'symbol':'1.0-0' }}
+                </td>
+                <td class="text-end fw-semibold"
+                    [class.text-success]="business.roi >= 0"
+                    [class.text-danger]="business.roi < 0">
+                  {{ business.roi | number:'1.1-1' }}%
                 </td>
                 <td>{{ business.user?.username ?? '—' }}</td>
               </tr>

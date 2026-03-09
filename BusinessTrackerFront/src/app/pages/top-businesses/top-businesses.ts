@@ -15,10 +15,10 @@ export class TopBusinesses implements OnInit {
   readonly allBusinesses = signal<IBusiness[]>([]);
   readonly isLoading = signal(true);
 
-  /** Top 10 businesses sorted by income (most searched = most profitable) */
+  /** Top 10 businesses sorted by annual income */
   readonly topBusinesses = computed(() => {
     return [...this.allBusinesses()]
-      .sort((a, b) => (b.income ?? 0) - (a.income ?? 0))
+      .sort((a, b) => (b.annualIncome ?? 0) - (a.annualIncome ?? 0))
       .slice(0, 10);
   });
 
@@ -30,16 +30,5 @@ export class TopBusinesses implements OnInit {
       },
       error: () => this.isLoading.set(false),
     });
-  }
-
-  /** Calculate profit for a business */
-  getProfit(business: IBusiness): number {
-    return (business.income ?? 0) - (business.expenses ?? 0);
-  }
-
-  /** Calculate ROI for a business */
-  getRoi(business: IBusiness): number {
-    if (!business.expenses || business.expenses === 0) return 0;
-    return (this.getProfit(business) / business.expenses) * 100;
   }
 }

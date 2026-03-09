@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { IUser, ILoginRequest } from '../models/user.model';
-import { IBusiness } from '../models/business.model';
+import { IBusiness, IProductionReport, ICountryRanking, BusinessType } from '../models/business.model';
 import { ICountry } from '../models/country.model';
 import { IRegion } from '../models/region.model';
 
@@ -63,6 +63,32 @@ export class BusinessService {
 
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.url}/${id}`);
+  }
+
+  getProductionReport(): Observable<IProductionReport[]> {
+    return this.http.get<IProductionReport[]>(`${this.url}/report`);
+  }
+
+  getRegionPercentages(): Observable<Record<string, number>> {
+    return this.http.get<Record<string, number>>(`${this.url}/report/percentage`);
+  }
+
+  getTop10Countries(): Observable<ICountryRanking[]> {
+    return this.http.get<ICountryRanking[]>(`${this.url}/report/top-countries`);
+  }
+
+  search(params: {
+    type?: BusinessType;
+    regionId?: number;
+    countryId?: number;
+    userId?: number;
+  }): Observable<IBusiness[]> {
+    const httpParams: Record<string, string> = {};
+    if (params.type) httpParams['type'] = params.type;
+    if (params.regionId) httpParams['regionId'] = String(params.regionId);
+    if (params.countryId) httpParams['countryId'] = String(params.countryId);
+    if (params.userId) httpParams['userId'] = String(params.userId);
+    return this.http.get<IBusiness[]>(`${this.url}/search`, { params: httpParams });
   }
 }
 

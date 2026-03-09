@@ -11,8 +11,10 @@ export interface IBusiness {
   id: number;
   businessName: string;
   email: string;
-  expenses: number;
-  income: number;
+  annualIncome: number | null;
+  initialInvestment?: number;
+  profit: number;
+  roi: number;
   type: BusinessType;
   user: {
     id: number;
@@ -27,4 +29,15 @@ export interface IBusiness {
       name: string;
     };
   };
+}
+
+export interface IProductionReport {
+  region: string;
+  type: BusinessType;
+  totalUsers: number;
+}
+
+export interface ICountryRanking {
+  country: string;
+  totalBusinesses: number;
 }

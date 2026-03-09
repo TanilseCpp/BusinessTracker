@@ -41,30 +41,30 @@
                   <div class="col-6">
                     <small class="text-muted d-block">Ingresos</small>
                     <span class="fw-bold text-success">
-                      {{ business.income | currency:'USD':'symbol':'1.0-0' }}
+                      {{ business.annualIncome | currency:'USD':'symbol':'1.0-0' }}
                     </span>
                   </div>
                   <div class="col-6">
-                    <small class="text-muted d-block">Gastos</small>
+                    <small class="text-muted d-block">Inversión Inicial</small>
                     <span class="fw-bold text-danger">
-                      {{ business.expenses | currency:'USD':'symbol':'1.0-0' }}
+                      {{ (business.annualIncome ?? 0) - business.profit | currency:'USD':'symbol':'1.0-0' }}
                     </span>
                   </div>
                 </div>
 
-                <div class="row g-2">
+                <div class="row g-2 mb-3">
                   <div class="col-6">
                     <small class="text-muted d-block">Ganancia</small>
-                    <span class="fw-bold" [class.text-success]="getProfit(business) >= 0"
-                          [class.text-danger]="getProfit(business) < 0">
-                      {{ getProfit(business) | currency:'USD':'symbol':'1.0-0' }}
+                    <span class="fw-bold" [class.text-success]="business.profit >= 0"
+                          [class.text-danger]="business.profit < 0">
+                      {{ business.profit | currency:'USD':'symbol':'1.0-0' }}
                     </span>
                   </div>
                   <div class="col-6">
                     <small class="text-muted d-block">ROI</small>
-                    <span class="fw-bold" [class.text-success]="getRoi(business) >= 0"
-                          [class.text-danger]="getRoi(business) < 0">
-                      {{ getRoi(business) | number:'1.1-1' }}%
+                    <span class="fw-bold" [class.text-success]="business.roi >= 0"
+                          [class.text-danger]="business.roi < 0">
+                      {{ business.roi | number:'1.1-1' }}%
                     </span>
                   </div>
                 </div>

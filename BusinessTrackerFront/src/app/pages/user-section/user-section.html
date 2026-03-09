@@ -124,22 +124,22 @@
                     </div>
                     <div class="col-md-4"></div>
                     <div class="col-md-6">
-                      <label for="expenses" class="form-label">Inversión Inicial (Gastos)</label>
+                      <label for="initialInvestment" class="form-label">Inversión Inicial</label>
                       <input
-                        id="expenses"
+                        id="initialInvestment"
                         type="number"
                         class="form-control"
-                        [value]="newBusiness().expenses"
-                        (input)="updateFormField('expenses', +$any($event.target).value)" />
+                        [value]="newBusiness().initialInvestment"
+                        (input)="updateFormField('initialInvestment', +$any($event.target).value)" />
                     </div>
                     <div class="col-md-6">
-                      <label for="income" class="form-label">Ingresos Anuales</label>
+                      <label for="annualIncome" class="form-label">Ingresos Anuales</label>
                       <input
-                        id="income"
+                        id="annualIncome"
                         type="number"
                         class="form-control"
-                        [value]="newBusiness().income"
-                        (input)="updateFormField('income', +$any($event.target).value)" />
+                        [value]="newBusiness().annualIncome"
+                        (input)="updateFormField('annualIncome', +$any($event.target).value)" />
                     </div>
                     <div class="col-12">
                       <button type="submit" class="btn btn-primary-custom px-4">
@@ -167,7 +167,9 @@
                         <th>Tipo</th>
                         <th>Región</th>
                         <th class="text-end">Ingresos</th>
-                        <th class="text-end">Gastos</th>
+                        <th class="text-end">Inv. Inicial</th>
+                        <th class="text-end">Ganancia</th>
+                        <th class="text-end">ROI</th>
                         <th class="text-center">Acciones</th>
                       </tr>
                     </thead>
@@ -178,10 +180,20 @@
                           <td><span class="badge bg-info">{{ business.type }}</span></td>
                           <td>{{ business.region?.name }}</td>
                           <td class="text-end text-success fw-semibold">
-                            {{ business.income | currency:'USD':'symbol':'1.0-0' }}
+                            {{ business.annualIncome | currency:'USD':'symbol':'1.0-0' }}
                           </td>
                           <td class="text-end text-danger fw-semibold">
-                            {{ business.expenses | currency:'USD':'symbol':'1.0-0' }}
+                            {{ (business.annualIncome ?? 0) - business.profit | currency:'USD':'symbol':'1.0-0' }}
+                          </td>
+                          <td class="text-end fw-semibold"
+                              [class.text-success]="business.profit >= 0"
+                              [class.text-danger]="business.profit < 0">
+                            {{ business.profit | currency:'USD':'symbol':'1.0-0' }}
+                          </td>
+                          <td class="text-end fw-semibold"
+                              [class.text-success]="business.roi >= 0"
+                              [class.text-danger]="business.roi < 0">
+                            {{ business.roi | number:'1.1-1' }}%
                           </td>
                           <td class="text-center">
                             <button
