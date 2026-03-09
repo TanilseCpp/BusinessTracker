@@ -34,8 +34,8 @@ export class UserSection implements OnInit {
   readonly newBusiness = signal<Partial<IBusiness>>({
     businessName: '',
     email: '',
-    expenses: 0,
-    income: 0,
+    initialInvestment: 0,
+    annualIncome: 0,
     type: BusinessType.OTHER,
   });
   readonly selectedRegionId = signal<number | null>(null);
@@ -150,8 +150,8 @@ export class UserSection implements OnInit {
     this.newBusiness.set({
       businessName: '',
       email: '',
-      expenses: 0,
-      income: 0,
+      initialInvestment: 0,
+      annualIncome: 0,
       type: BusinessType.OTHER,
     });
     this.selectedRegionId.set(null);

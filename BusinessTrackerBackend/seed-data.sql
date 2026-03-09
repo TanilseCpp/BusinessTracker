@@ -183,3 +183,36 @@ INSERT INTO business (business_name, email, initial_investment, annual_income, t
  'pedidos@laabuela.com',         9000,  40000, 'RESTAURANT',
  (SELECT id FROM users WHERE username = 'laura_pena'),
  (SELECT id FROM region WHERE name = 'Antioquia'));
+
+-- ============================================
+-- 5. FIX: Corregir caracteres especiales (UTF-8)
+-- Ejecutar si los datos se insertaron con encoding incorrecto
+-- ============================================
+
+-- Countries
+UPDATE country SET name = 'México'       WHERE name LIKE 'M%xico' AND name != 'México';
+UPDATE country SET name = 'Perú'         WHERE name LIKE 'Per%' AND name != 'Perú';
+UPDATE country SET name = 'Panamá'       WHERE name LIKE 'Panam%' AND name != 'Panamá';
+UPDATE country SET name = 'España'       WHERE name LIKE 'Espa%a' AND name != 'España';
+UPDATE country SET name = 'Canadá'       WHERE name LIKE 'Canad%' AND name != 'Canadá';
+UPDATE country SET name = 'Japón'        WHERE name LIKE 'Jap%n' AND name != 'Japón';
+UPDATE country SET name = 'Corea del Sur' WHERE name LIKE 'Corea%' AND name != 'Corea del Sur';
+UPDATE country SET name = 'Francia'      WHERE name LIKE 'Franc%' AND name != 'Francia';
+
+-- Regions
+UPDATE region SET name = 'Bogotá D.C.'      WHERE name LIKE 'Bogot%D.C%' AND name != 'Bogotá D.C.';
+UPDATE region SET name = 'Ciudad de México'  WHERE name LIKE 'Ciudad de M%xico' AND name != 'Ciudad de México';
+UPDATE region SET name = 'Córdoba'           WHERE name LIKE 'C%rdoba' AND name != 'Córdoba';
+UPDATE region SET name = 'São Paulo'         WHERE name LIKE 'S%o Paulo' AND name != 'São Paulo';
+UPDATE region SET name = 'Río de Janeiro'    WHERE name LIKE 'R%o de Janeiro' AND name != 'Río de Janeiro';
+UPDATE region SET name = 'Asunción'          WHERE name LIKE 'Asunci%n' AND name != 'Asunción';
+UPDATE region SET name = 'San José'          WHERE name LIKE 'San Jos%' AND name != 'San José';
+UPDATE region SET name = 'Berlín'            WHERE name LIKE 'Berl%n' AND name != 'Berlín';
+
+-- Business names con caracteres especiales
+UPDATE business SET business_name = 'Berlín Tech Hub'          WHERE business_name LIKE 'Berl%n Tech Hub' AND business_name != 'Berlín Tech Hub';
+UPDATE business SET business_name = 'Artesanías del Pacífico'  WHERE business_name LIKE 'Artesan%as del Pac%fico' AND business_name != 'Artesanías del Pacífico';
+UPDATE business SET business_name = 'Asesoría Legal Express'   WHERE business_name LIKE 'Asesor%a Legal Express' AND business_name != 'Asesoría Legal Express';
+UPDATE business SET business_name = 'Transporte Rápido'        WHERE business_name LIKE 'Transporte R%pido' AND business_name != 'Transporte Rápido';
+UPDATE business SET business_name = 'GreenMarket Orgánico'     WHERE business_name LIKE 'GreenMarket Org%nico' AND business_name != 'GreenMarket Orgánico';
+UPDATE business SET business_name = 'Panadería La Abuela'      WHERE business_name LIKE 'Panader%a La Abuela' AND business_name != 'Panadería La Abuela';

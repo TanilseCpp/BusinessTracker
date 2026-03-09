@@ -79,10 +79,10 @@
               </p>
               <div class="d-flex justify-content-between mt-auto pt-2 border-top">
                 <span class="small text-success fw-bold">
-                  Ingresos: {{ business.income | currency:'USD':'symbol':'1.0-0' }}
+                  Ingresos: {{ business.annualIncome | currency:'USD':'symbol':'1.0-0' }}
                 </span>
                 <span class="small text-danger fw-bold">
-                  Gastos: {{ business.expenses | currency:'USD':'symbol':'1.0-0' }}
+                  Inv. Inicial: {{ (business.annualIncome ?? 0) - business.profit | currency:'USD':'symbol':'1.0-0' }}
                 </span>
               </div>
             </div>
