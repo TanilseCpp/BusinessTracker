@@ -1,6 +1,7 @@
 import { Component, inject, OnInit, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { AuthService } from '@auth0/auth0-angular';
 import { UserService, BusinessService, RegionService } from '../../services/api';
 import { IUser } from '../../models/user.model';
 import { IBusiness, BusinessType } from '../../models/business.model';
@@ -16,13 +17,17 @@ export class UserSection implements OnInit {
   private readonly userService = inject(UserService);
   private readonly businessService = inject(BusinessService);
   private readonly regionService = inject(RegionService);
+  readonly auth = inject(AuthService);
 
-  /** Current selected user (simulated login) */
+  /** Auth0 user picture */
+  readonly auth0Picture = signal<string | null>(null);
+
+  /** Current user matched from backend */
   readonly currentUser = signal<IUser | null>(null);
-  readonly allUsers = signal<IUser[]>([]);
   readonly userBusinesses = signal<IBusiness[]>([]);
   readonly regions = signal<IRegion[]>([]);
   readonly isLoading = signal(true);
+  readonly userNotFound = signal(false);
   readonly businessTypes = Object.values(BusinessType);
 
   /** UI States */
@@ -53,21 +58,6 @@ export class UserSection implements OnInit {
 
   ngOnInit(): void {
     this.loadInitialData();
-  }
-
-  selectUser(userId: string): void {
-    const id = Number(userId);
-    if (!id) {
-      this.currentUser.set(null);
-      this.userBusinesses.set([]);
-      return;
-    }
-    this.userService.getById(id).subscribe({
-      next: (user) => {
-        this.currentUser.set(user);
-        this.loadUserBusinesses(user.id);
-      },
-    });
   }
 
   toggleRegisterForm(): void {
@@ -124,16 +114,34 @@ export class UserSection implements OnInit {
   }
 
   private loadInitialData(): void {
-    this.userService.getAll().subscribe({
-      next: (users) => {
-        this.allUsers.set(users);
-        this.isLoading.set(false);
-      },
-      error: () => this.isLoading.set(false),
-    });
-
     this.regionService.getAll().subscribe({
       next: (regions) => this.regions.set(regions),
+    });
+
+    this.auth.user$.subscribe((auth0User) => {
+      if (!auth0User?.email) {
+        this.isLoading.set(false);
+        return;
+      }
+
+      this.auth0Picture.set(auth0User.picture ?? null);
+
+      this.userService.getAll().subscribe({
+        next: (users) => {
+          const matched = users.find(
+            (u) => u.email.toLowerCase() === auth0User.email!.toLowerCase()
+          );
+          if (matched) {
+            this.currentUser.set(matched);
+            this.loadUserBusinesses(matched.id);
+            this.userNotFound.set(false);
+          } else {
+            this.userNotFound.set(true);
+          }
+          this.isLoading.set(false);
+        },
+        error: () => this.isLoading.set(false),
+      });
     });
   }
 

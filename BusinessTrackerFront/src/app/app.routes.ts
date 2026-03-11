@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { Home } from './pages/home/home';
+import { authGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
   { path: '', component: Home },
@@ -19,6 +20,7 @@ export const routes: Routes = [
     path: 'user-section',
     loadComponent: () =>
       import('./pages/user-section/user-section').then((m) => m.UserSection),
+    canActivate: [authGuard],
   },
   {
     path: 'top-businesses',
@@ -26,6 +28,12 @@ export const routes: Routes = [
       import('./pages/top-businesses/top-businesses').then(
         (m) => m.TopBusinesses
       ),
+  },
+  {
+    path: 'profile',
+    loadComponent: () =>
+      import('./pages/profile/profile').then((m) => m.ProfilePage),
+    canActivate: [authGuard],
   },
   { path: '**', redirectTo: '', pathMatch: 'full' },
 ];
