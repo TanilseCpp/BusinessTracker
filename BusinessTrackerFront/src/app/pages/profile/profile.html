@@ -1,0 +1,55 @@
+<div class="page-wrapper">
+  <div class="container">
+    <h2 class="section-title">Mi Perfil</h2>
+
+    @if (auth.isLoading$ | async) {
+      <div class="text-center py-5">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Cargando...</span>
+        </div>
+      </div>
+    } @else if (auth.isAuthenticated$ | async) {
+      <div class="row justify-content-center">
+        <div class="col-lg-6">
+          <div class="card-custom p-4 text-center profile-page-card">
+            <app-profile />
+          </div>
+        </div>
+      </div>
+
+      @if (auth.user$ | async; as user) {
+        <div class="row justify-content-center mt-4">
+          <div class="col-lg-8">
+            <div class="card-custom p-4">
+              <h5 class="fw-bold mb-3">Detalles de la Cuenta</h5>
+              <div class="table-responsive">
+                <table class="table mb-0">
+                  <tbody>
+                    @if (user.nickname) {
+                      <tr>
+                        <td class="fw-semibold text-muted">Nickname</td>
+                        <td>{{ user.nickname }}</td>
+                      </tr>
+                    }
+                    @if (user.updated_at) {
+                      <tr>
+                        <td class="fw-semibold text-muted">Última actualización</td>
+                        <td>{{ user.updated_at | date:'medium' }}</td>
+                      </tr>
+                    }
+                    @if (user.sub) {
+                      <tr>
+                        <td class="fw-semibold text-muted">ID de usuario</td>
+                        <td><code>{{ user.sub }}</code></td>
+                      </tr>
+                    }
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+    }
+  </div>
+</div>

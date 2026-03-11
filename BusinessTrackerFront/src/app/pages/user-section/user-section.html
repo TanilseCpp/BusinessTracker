@@ -10,21 +10,24 @@
       </div>
     } @else {
 
-      <!-- User Selector -->
-      <div class="card-custom p-4 mb-4">
-        <label for="userSelect" class="form-label fw-semibold">Seleccionar Usuario</label>
-        <select
-          id="userSelect"
-          class="form-select"
-          (change)="selectUser($any($event.target).value)">
-          <option value="">-- Selecciona un usuario --</option>
-          @for (user of allUsers(); track user.id) {
-            <option [value]="user.id">{{ user.username }} ({{ user.email }})</option>
-          }
-        </select>
-      </div>
-
-      @if (currentUser()) {
+      @if (userNotFound()) {
+        <!-- User not found in backend -->
+        <div class="text-center py-5">
+          <div class="avatar-circle-lg mx-auto mb-3">
+            @if (auth0Picture()) {
+              <img [src]="auth0Picture()" alt="Avatar" class="avatar-img-lg" />
+            } @else {
+              <span class="avatar-initials-lg">?</span>
+            }
+          </div>
+          <p class="text-muted fs-5">
+            Tu cuenta de Auth0 no está vinculada a un usuario en el sistema.
+          </p>
+          <p class="text-muted small">
+            Contacta al administrador para registrar tu cuenta.
+          </p>
+        </div>
+      } @else if (currentUser()) {
         <!-- Alert Messages -->
         @if (successMessage()) {
           <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -45,7 +48,11 @@
             <div class="card-custom p-4 text-center user-profile-card">
               <!-- Avatar -->
               <div class="avatar-circle mx-auto mb-3">
-                <span class="avatar-initials">{{ userInitials() }}</span>
+                @if (auth0Picture()) {
+                  <img [src]="auth0Picture()" alt="Avatar" class="avatar-img-circle" />
+                } @else {
+                  <span class="avatar-initials">{{ userInitials() }}</span>
+                }
               </div>
               <h4 class="fw-bold mb-1">{{ currentUser()!.username }}</h4>
               <p class="text-muted small mb-2">{{ currentUser()!.email }}</p>
@@ -216,7 +223,7 @@
           <div class="avatar-circle-lg mx-auto mb-3">
             <span class="avatar-initials-lg">?</span>
           </div>
-          <p class="text-muted fs-5">Selecciona un usuario para ver su perfil y emprendimientos.</p>
+          <p class="text-muted fs-5">Cargando información del usuario...</p>
         </div>
       }
     }
